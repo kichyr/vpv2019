@@ -18,10 +18,11 @@ def potential_pit(x):
 @app.route('/calculate1D',  methods=['GET'])
 def hello_world():
     func = request.args.get('potential')
+    d = request.args.get('d')
     ss = SchorodingerSolver1D()
     potential = string2func1D(func)
-    print(potential(1))
-    ss.generateMatrix(string2func1D(func))
+    print(float(d))
+    ss.generateMatrix(string2func1D(func), float(d))
     return ss.get_output_data()
 
 @app.route('/')
