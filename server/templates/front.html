@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Plotly.js --><script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .nav ul {
+            list-style: none;
+            background-color: #444;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        .nav li {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2em;
+            line-height: 40px;
+            height: 40px;
+            border-bottom: 1px solid #888;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            transition: .3s background-color;
+        }
+        
+        .nav a:hover {
+            background-color: #005f5f;
+        }
+        
+        .nav a.active {
+            background-color: #fff;
+            color: #444;
+            cursor: default;
+        }
+
+        .mainpg {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+            /*----------------------------main page---------------------------*/
+             /* label color */
+            .input-field label {
+                color: #000;
+            }
+            /* label focus color */
+            .input-field input[type=text]:focus + label {
+                color: #000;
+            }
+            /* label underline focus color */
+            .input-field input[type=text]:focus {
+                border-bottom: 1px solid #000;
+                box-shadow: 0 1px 0 0 #000;
+            }
+            /* valid color */
+            .input-field input[type=text].valid {
+                border-bottom: 1px solid #000;
+                box-shadow: 0 1px 0 0 #000;
+            }
+            /* invalid color */
+            .input-field input[type=text].invalid {
+                border-bottom: 1px solid #000;
+                box-shadow: 0 1px 0 0 #000;
+            }            .mainpg {
+                display: flex;
+                height: 100%;
+                flex-direction: column;
+            }
+            
+            /* icon prefix focus color */
+            .button {
+                display: inline-block;
+                margin: 0;
+                padding: 0.75rem 1rem;
+                border: 0;
+                border-radius: 0.317rem;
+                background-color: #aaa;
+                color: #fff;
+                text-decoration: none;
+                font-weight: 700;
+                font-size: 1rem;
+            line-height: 1.5;
+                font-family: "Helvetica Neue", Arial, sans-serif;
+                cursor: pointer;
+                -webkit-appearance: none;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .button:hover {
+                opacity: 0.85;
+            }
+
+            .button:active {
+                box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+            }
+
+            .button:focus {
+                outline: thin dotted #444;
+                outline: 5px auto -webkit-focus-ring-color;
+                outline-offset: -2px;
+            }
+
+            .input-field .prefix.active {
+                color: #000;
+            }
+
+            .form__group_field{
+                display: flex;
+                width: 80%;
+                margin: 20px;
+            }
+
+            .form__group {
+            position: relative;
+            padding: 15px 0 0;
+            margin-top: 10px;
+            width: 90%;
+            }
+
+            .form__field {
+            font-family: inherit;
+            width: 100%;
+            border: 0;
+            border-bottom: 2px solid #9b9b9b;
+            outline: 0;
+            font-size: 1.3rem;
+            color: #000;
+            padding: 7px 0;
+            background: transparent;
+            transition: border-color 0.2s;
+            }
+            .form__field::placeholder {
+            color: transparent;
+            }
+            .form__field:placeholder-shown ~ .form__label {
+            font-size: 1.3rem;
+            cursor: text;
+            top: 20px;
+            }
+
+            .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: #9b9b9b;
+            }
+
+            .form__field:focus {
+            padding-bottom: 6px;
+            font-weight: 700;
+            border-width: 3px;
+            border-image: linear-gradient(to right, #000, #9b9b9b);
+            border-image-slice: 1;
+            }
+            .form__field:focus ~ .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: #000;
+            font-weight: 700;
+            }
+
+            /* reset input */
+            .form__field:required, .form__field:invalid {
+            box-shadow: none;
+            }
+
+
+            @media screen and (min-width: 600px) {
+            .nav li {
+            width: 120px;
+            border-bottom: none;
+            height: 50px;
+            line-height: 50px;
+            font-size: 1.4em;
+            }
+        
+            /* Option 1 - Display Inline */
+            .nav li {
+            display: inline-block;
+            margin-right: -4px;
+            }
+        
+            /* Options 2 - Float
+            .nav li {
+            float: left;
+            }
+            .nav ul {
+            overflow: auto;
+            width: 600px;
+            margin: 0 auto;
+            }
+            .nav {
+            background-color: #444;
+            }
+            */
+            /*----------------------------about page---------------------------*/
+        }
+    </style>
+</head>
+    <body class="news">
+        <header>
+            <div class="nav">
+            <ul>
+                <li class="home"><a href="#">Home</a></li>
+                <li class="tutorials"><a class="active" href="#">Calc!</a></li>
+                <li class="about"><a href="#">About</a></li>
+            </ul>
+            </div>
+        </header>
+        <!------------------------------main page----------------------------->
+        <div class="mainpg">
+            <div class="form__group_field">
+                <input type="input" class="form__field" placeholder="Name" name="name" id='potential' required />
+                <button class="button" style="margin-left: 20px;" onclick="calculate()">Calc!</button>
+            </div>
+            <div id="wave-func-div" style="width: 70%; height: 50%;"></div>
+            <div id="energy-container" style="width: 70%; height: 10%;"></div>          
+        <div>
+        <!------------------------------about page----------------------------->
+    </body>
+    <script>
+        async function calculate() {
+            potential = document.getElementById("potential").value;
+            const response = await fetch(`http://127.0.0.1:5000/calculate1D?potential=${potential}`);
+            const myJson = await response.json();
+            const data = {x: myJson.x, y: myJson.phi[1]}
+            const layout = {legend: {          y: 0.5,          yref: 'paper',          font: {            family: 'Arial, sans-serif',            size: 20,            color: 'black',          }        },        title:'Data Labels on the Plot'      };
+            Plotly.newPlot('wave-func-div', [data], layout);
+            console.log(data);
+            
+        }
+        function addEnergyValues(energy) {
+            container =  document.getElementById("energy-container");
+        }
+    </script>
+</html>
