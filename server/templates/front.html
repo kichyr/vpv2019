@@ -247,20 +247,22 @@
         <div class="mainpg">
             <div class="form__group_field">
                 <input type="input" class="form__field" placeholder="potential(x) in python oneline notation" name="name" id='potential' required />
-                <div style="display:flex; justify-content:center;align-items: center; margin: 8px; font-size: 3vh; ">x[m]</div>
+                <div style="display:flex; align-items: center;  margin: 8px; font-size: 3vh; ">x[m]</div>
                 <input id="d" type="input" class="form__field" placeholder="system size" name="name" id='potential' required />
                 <button class="button" style="margin-left: 20px;" onclick="calculate()">Calc!</button>
             </div>
-            <div id="wave-func-div" style="width: 80%; height: 70%;"></div>
-            <H2>Energy levels [eV]</H2>>
-            <div id="energy-container" style="justify-content: center; flex-wrap: wrap; overflow-y: scroll; display: flex; width: 70%; height: 25%;"></div>          
-        <div>
+             <div id="output-info-conrainer" style="display:none; flex-direction:column; align-items: center; justify-content:center; width: 100%; height: 90%;">
+                <div id="wave-func-div" style="width: 80%; height: 70%;"></div>
+                <H2>Energy levels [eV]</H2>>
+                <div id="energy-container" style="justify-content: center; flex-wrap: wrap; overflow-y: scroll; display: flex; width: 70%; height: 25%;"></div>          
+            </div>
     </body>
     <script>
         let DATA = {} //all data
         let data = {} //data that draws on graph
         let current_energy = 0 // chosen energy level
         async function calculate() {
+            document.getElementById("output-info-conrainer").style.display = "flex";
             potential = document.getElementById("potential").value;
             d = document.getElementById("d").value;
             const response = await fetch(`http://127.0.0.1:5000/calculate1D?potential=${potential}&d=${d}`);
