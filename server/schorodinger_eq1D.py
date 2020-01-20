@@ -1,7 +1,7 @@
 import numpy as np   # Import NumPy package which enables all the fun with algebra
 from decimal import *
 
-ħ = 6.582 * 10 ** -16 # Дж·с
+ħ = 6.582 * 10 ** -16 # 
 e = 1.60217662 * 10 ** -19 # Кулон
 electron_mass = 9.10938356 * 10 ** -31 # масса электрона
 
@@ -43,4 +43,5 @@ class SchorodingerSolver1D:
             x.append(self.__getPointByNumber(i) * self.d)
         return {"E": list(map(lambda x: "{:.2E}".format(Decimal(str(x / self.k))), list(self.λ))),
                 "phi": phi,
-                "x": x}
+                "x": x,
+                "E_not_formated": list(map(lambda x: x / self.k, list(self.λ)))}
