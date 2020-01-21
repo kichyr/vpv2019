@@ -3,6 +3,69 @@
 <head>
     <!-- Include Plotly.js --><script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
+        /* The switch - the box around the slider */
+        .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        /* The slider */
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        input:checked + .slider {
+        background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 34px;
+        }
+
+        .slider.round:before {
+        border-radius: 50%;
+        }
+
         html {
             margin: 0;
             padding: 0;
@@ -126,7 +189,7 @@
 
             .form__group_field{
                 display: flex;
-                width: 80%;
+                width: 90%;
                 margin: 20px;
             }
 
@@ -250,13 +313,20 @@
                 <div style="display:flex; align-items: center;  margin: 8px; font-size: 3vh; ">x[m]</div>
                 <input id="d" type="input" class="form__field" placeholder="system size" name="name" id='potential' required />
                 <button class="button" style="margin-left: 20px;" onclick="calculate()">Calc!</button>
+                <div style="width: 5%; margin-left: 20px; display: flex; flex-direction: column; align-items: center;">
+                    Ѱ/Ѱ^2
+                    <label class="switch">
+                        <input type="checkbox"  onclick="psiSquare(event)">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
             </div>
              <div id="output-info-conrainer" style="display:none; flex-direction:column; align-items: center; justify-content:center; width: 100%; height: 90%;">
                 
                 <div id="graph-container" style="display:flex; width: 90%; height: 70%;">
                     <div id="wave-func-div" style="width: 65%; height: 100%;"></div>
                     <div id="energy-graph-div" style="width: 35%; height: 100%;"></div>
-                </div>>
+                </div>
                 
                 <H2>Energy levels [eV]</H2>
                 <div id="energy-container" style="justify-content: center; flex-wrap: wrap; overflow-y: scroll; display: flex; width: 70%; height: 25%;"></div>          
@@ -272,8 +342,7 @@
             d = document.getElementById("d").value;
             const response = await fetch(`http://127.0.0.1:5000/calculate1D?potential=${potential}&d=${d}`);
             DATA = await response.json();
-            data = [{x: DATA.x, y: DATA.phi[0].map((val) => (val * val))}];
-            console.log(data.E);
+            data = [{x: DATA.x, y: DATA.phi[0].map((val) => (psiSquareFlag ? val * val : val))}];
             addEnergyValues(DATA.E);
             var layout = {
                 title: "Ψ^2(x)",
@@ -311,6 +380,7 @@
 
         function addEnergyValues(energy) {
             const container =  document.getElementById("energy-container");
+            container.innerHTML = ""
             energy.map((value, index) => {
                 let E = document.createElement("div");
                 E.setAttribute("class", "energy_value");
@@ -324,10 +394,19 @@
 
         function changeWaveFunc(e) {
             var index = e.target.getAttribute("value-index");
-            document.getElementById('wave-func-div').data = [{x: DATA.x, y: DATA.phi[index].map((val) => (val * val))}];
+            document.getElementById('wave-func-div').data = [{x: DATA.x, y: DATA.phi[index].map((val) => (psiSquareFlag ? val * val : val))}];
             document.getElementById('energy-container').childNodes[index].style.backgroundColor = "rgb(3, 125, 129)";
             document.getElementById('energy-container').childNodes[current_energy].style.backgroundColor = "lightblue";
             current_energy = index;
+            Plotly.redraw('wave-func-div');
+        }
+
+        psiSquareFlag = false;
+        function psiSquare(e) {
+            e.stopPropagation();
+            psiSquareFlag = !psiSquareFlag;
+            document.getElementById('wave-func-div').data = [{x: DATA.x, y: DATA.phi[current_energy].map((val) => (psiSquareFlag ? val * val : val))}];
+            document.getElementById('wave-func-div').layout.title = psiSquareFlag ? "Ψ^2(x)" : "Ψ(x)"
             Plotly.redraw('wave-func-div');
         }
 

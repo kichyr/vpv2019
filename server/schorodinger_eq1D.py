@@ -8,19 +8,19 @@ electron_mass = 9.10938356 * 10 ** -31 # масса электрона
 
 class SchorodingerSolver1D:
     d = 1
-    N = 100 #grid size
-    k = 2 * electron_mass * d**2 / ħ**2 #normalization coeff
+    N = 200 #grid size
+    k = 2 * electron_mass * d**2 / (ħ**2) #normalization coeff
 
-    def generateMatrix(self, potential, d):
+    def generateMatrix(self, potential, sys_size):
         global h, e, electron_mass
-        d = d / self.N
+        d = sys_size / self.N
         self.d = d
         self.k = 2 * electron_mass * d**2 / ħ**2 
         N = self.N
         self.matrix_size = (N * 2)
         m = [[0 for i in range(self.matrix_size)] for j in range(self.matrix_size)]
         for i in range(2 * N):
-            m[i][i] = self.k * potential((i - N + 0.5) * d) + 6
+            m[i][i] = self.k * potential((i - N + 0.5) * self.d) + 2
             
             if i - 1 >= 0:
                 m[i][i - 1] = -1
@@ -29,7 +29,11 @@ class SchorodingerSolver1D:
                 m[i][i + 1] = -1
         
         self.matrix = m
-        self.λ, self.U = np.linalg.eigh(m)
+        self.λ, self.U = np.linalg.eig(m)
+
+        self.indexes = list(range(len(self.λ)))
+        self.λ,self.indexes = zip(*sorted(zip(self.λ, self.indexes)))
+        self.indexes = list(self.indexes)
 
     def __getPointByNumber(self, number):
         return number - self.N + 0.5
@@ -38,8 +42,9 @@ class SchorodingerSolver1D:
     def get_output_data(self):
         phi = []
         x = []
+        for index in self.indexes:
+            phi.append(list(self.U[:,index]))
         for i in range(self.matrix_size):
-            phi.append(list(self.U[:,i]))
             x.append(self.__getPointByNumber(i) * self.d)
         return {"E": list(map(lambda x: "{:.2E}".format(Decimal(str(x / self.k))), list(self.λ))),
                 "phi": phi,

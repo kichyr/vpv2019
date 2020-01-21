@@ -21,7 +21,6 @@ def hello_world():
     d = request.args.get('d')
     ss = SchorodingerSolver1D()
     potential = string2func1D(func)
-    print(float(d))
     ss.generateMatrix(string2func1D(func), float(d))
     return ss.get_output_data()
 
