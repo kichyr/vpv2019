@@ -340,7 +340,7 @@
             document.getElementById("output-info-conrainer").style.display = "flex";
             potential = document.getElementById("potential").value;
             d = document.getElementById("d").value;
-            const response = await fetch(`http://127.0.0.1:5000/calculate1D?potential=${potential}&d=${d}`);
+            const response = await fetch(`http://{{host}}/calculate1D?potential=${potential}&d=${d}`);
             DATA = await response.json();
             data = [{x: DATA.x, y: DATA.phi[0].map((val) => (psiSquareFlag ? val * val : val))}];
             addEnergyValues(DATA.E);
@@ -409,6 +409,6 @@
             document.getElementById('wave-func-div').layout.title = psiSquareFlag ? "Ψ^2(x)" : "Ψ(x)"
             Plotly.redraw('wave-func-div');
         }
-
+        //coment
     </script>
 </html>

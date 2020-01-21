@@ -7,6 +7,7 @@ from schorodinger_eq1D import SchorodingerSolver1D
 
 
 app = Flask(__name__)
+front_host = "127.0.0.1:5000"
 
 def potential_pit(x):
     """U(x,y,z) potential"""
@@ -26,7 +27,7 @@ def hello_world():
 
 @app.route('/')
 def main_page():
-    return render_template("front.html", title = 'Projects')
+    return render_template("front.html", host=front_host)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000)
